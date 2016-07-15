@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="JhS-ig-RDB"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="watchdogs3" customModuleProvider="target"/>
+        <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <customObject id="h48-jD-0Kk" customClass="StatusMenuController" customModule="watchdogs3" customModuleProvider="target">
+            <connections>
+                <outlet property="statusMenu" destination="Pzz-v6-2x8" id="jcB-zL-afG"/>
+            </connections>
+        </customObject>
+        <menu id="Pzz-v6-2x8">
+            <items>
+                <menuItem title="Start" id="UcF-wc-lAy">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="startTimer:" target="h48-jD-0Kk" id="L07-pM-a9g"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Pause" id="9Kg-6J-NdJ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="suspendTimer:" target="h48-jD-0Kk" id="BZf-yH-XT2"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Reset" id="9Qw-fu-kuq">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="resetTimer:" target="h48-jD-0Kk" id="7am-ba-07C"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="ylU-eh-Zmy"/>
+                <menuItem title="Preferences…" id="vZ4-i7-C6u">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showPreference:" target="h48-jD-0Kk" id="pWv-kw-ris"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Quit" id="M0X-Ex-WU1">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="quit:" target="h48-jD-0Kk" id="lgU-HY-mEB"/>
+                    </connections>
+                </menuItem>
+            </items>
+        </menu>
+    </objects>
+</document>
