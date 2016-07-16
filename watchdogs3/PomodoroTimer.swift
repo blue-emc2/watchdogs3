@@ -17,17 +17,16 @@ class PomodoroTimer: NSObject {
         case Working
         case Resting
     }
-    
+
     var status = Status.Stopped
-
-    dynamic var myDate = 0.0    // 名前はかえる
-    dynamic var workTime: String!
-    dynamic var restTime: String!
-
-    // dynamic var status : Status.Stoped
-    
     var endTime : NSDate! = nil             // 終了時間を表す変数
     var userData: NSUserDefaults!
+    var observerObject: NSObject!
+
+    weak var timer: NSTimer?
+
+    static let COUNT_DOWN = "COUNT_DOWN"
+    static let UPDATE_TIME_SETTING = "UPDATE_TIME_SETTING"
     
     class var sharedInstance: PomodoroTimer {
         struct Singleton {
@@ -38,22 +37,14 @@ class PomodoroTimer: NSObject {
     
     override init() {
         userData = NSUserDefaults.standardUserDefaults()
+        status = Status.Stopped
     }
     
-    func updateDate(now: NSDate) {
-        if (now.isEqualToDate(endTime)) {
-            myDate = 0.0
-            return
-        }
-        
-        myDate = endTime.timeIntervalSinceDate(now)
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(observerObject)
     }
 
-    func start() {
-//    func start(workTime work:Int, breakTime rest:Int, startTime start:Int) {
-//        print("start work \(work)")
-//        print("start rest \(rest)")
-
+    func start() -> NSTimer {
         switch status {
         case Status.Working:
             rest()
@@ -61,23 +52,56 @@ class PomodoroTimer: NSObject {
             work()
         }
 
-        print("status: \(status)")
+        print("start status: \(status)")
+
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ticktock), userInfo: nil, repeats: true)
+        NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
+
+        return timer!
     }
     
+    func ticktock() {
+        let now = NSDate()
+        if (now.isEqualToDate(endTime)) {
+            timer?.invalidate()
+            return
+        }
+
+        let time_left: Double = endTime.timeIntervalSinceDate(now)
+        print("ticktock \(time_left)" )
+        NSNotificationCenter.defaultCenter().postNotificationName(PomodoroTimer.COUNT_DOWN, object: observerObject, userInfo: ["time" : time_left])
+    }
+
     func work() {
+        if (status == .Working) {
+            return
+        }
+
+        suspend()
         currentSettingTime("workTime")
         status = Status.Working
     }
+
     func rest() {
+        if (status == .Resting) {
+            return
+        }
+
+        suspend()
         currentSettingTime("restTime")
         status = Status.Resting
     }
     
     func reset() {
+        suspend()
         status = Status.Stopped
         print("status: \(status)")
     }
     
+    func suspend() {
+        timer?.invalidate()
+    }
+
     func currentSettingTime(key: String) {
         if let _ = userData {
             userData = NSUserDefaults.standardUserDefaults()
@@ -88,5 +112,10 @@ class PomodoroTimer: NSObject {
         let interval = 5.0
         endTime = NSDate(timeInterval: interval, sinceDate: NSDate())
         print("currentSettingTime \(endTime)")
+    }
+
+    func addNotificationCenterObserver(observer target: NSObject, selector aSelector: Selector, name: String, userInfo anObject: AnyObject?) {
+        observerObject = target
+        NSNotificationCenter.defaultCenter().addObserver(observerObject, selector: aSelector, name: name, object: anObject)
     }
 }
