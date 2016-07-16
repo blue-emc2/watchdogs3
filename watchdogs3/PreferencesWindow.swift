@@ -20,10 +20,8 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
     @IBOutlet weak var workTimeButton: NSPopUpButton!
     
     var userData: NSUserDefaults!
-    var workTime: String!
-    var restTime: String!
-    
-    private var myContext = 1
+    var workTime: Int!
+    var restTime: Int!
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -34,11 +32,19 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
         NSApp.activateIgnoringOtherApps(true)
         
         userData = NSUserDefaults.standardUserDefaults()
-        workTime = userData.stringForKey("workTime") ?? "25"
-        workTimeButton.selectItemWithTitle(workTime)
+        workTime = userData.integerForKey("workTime") ?? 25
+        if (workTime == 0) {
+            workTime = 25
+        }
         
-        restTime = userData.stringForKey("restTime") ?? "5"
-        breakTimeButton.selectItemWithTitle(restTime)
+        workTimeButton.selectItemWithTitle("\(workTime)")
+        
+        restTime = userData.integerForKey("restTime") ?? 5
+        if (restTime == 0) {
+            restTime = 5
+        }
+        
+        breakTimeButton.selectItemWithTitle("\(restTime)")
         
         print("\(workTime),    \(restTime),    \(workTimeButton.itemTitles), \(breakTimeButton.itemTitles)")
     }
@@ -50,19 +56,19 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
     @IBAction func updateWorkTime(sender: NSPopUpButton) {
         print("updateWorkTime begin")
         
-        PomodoroTimer.sharedInstance.workTime = sender.titleOfSelectedItem
-        workTime = sender.titleOfSelectedItem
+//        PomodoroTimer.sharedInstance.workTime = sender.titleOfSelectedItem
+        workTime = Int(sender.titleOfSelectedItem!)
 
-        print("updateWorkTime end")
+        print("updateWorkTime \(workTime) end")
     }
     
     @IBAction func updateBreakTime(sender: NSPopUpButton) {
         print("updateBreakTime begin")
         
-        PomodoroTimer.sharedInstance.restTime = sender.titleOfSelectedItem
-        restTime = sender.titleOfSelectedItem
+//        PomodoroTimer.sharedInstance.restTime = sender.titleOfSelectedItem
+        restTime = Int(sender.titleOfSelectedItem!)
             
-        print("updateBreakTime end")
+        print("updateBreakTime \(restTime) end")
     }
     
     func windowWillClose(notification: NSNotification) {
@@ -70,10 +76,15 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
             userData = NSUserDefaults.standardUserDefaults()
         }
         
-        userData.setInteger(Int(workTime)!, forKey: "workTime")
-        userData.setInteger(Int(restTime)!, forKey: "breakTime")
+        userData.setInteger(workTime!, forKey: "workTime")
+        userData.setInteger(restTime!, forKey: "breakTime")
         userData.synchronize()
 
         delegate?.preferencesDidUpdate()
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(PomodoroTimer.UPDATE_TIME_SETTING,
+                                                                  object: self,
+                                                                  userInfo: ["work" : workTime,
+                                                                    "rest" : restTime])
     }
 }
