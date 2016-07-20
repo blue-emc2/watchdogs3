@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindow" customModule="watchdogs2" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindow" customModule="watchdogs3" customModuleProvider="target">
             <connections>
                 <outlet property="breakTimeButton" destination="5vR-W6-YGV" id="dTI-Ss-qTg"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
@@ -70,7 +70,7 @@
                         <rect key="frame" x="210" y="159" width="76" height="26"/>
                         <popUpButtonCell key="cell" type="push" title="5" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="CbZ-sb-17m" id="P1b-E8-p4c">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" size="13" name=".AppleSystemUIFont"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" id="1vO-Pr-NQE">
                                 <items>
                                     <menuItem title="15" id="ohf-vS-K7c">
