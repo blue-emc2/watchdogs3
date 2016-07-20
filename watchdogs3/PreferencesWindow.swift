@@ -54,21 +54,15 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
     }
     
     @IBAction func updateWorkTime(sender: NSPopUpButton) {
-        print("updateWorkTime begin")
-        
-//        PomodoroTimer.sharedInstance.workTime = sender.titleOfSelectedItem
+//        print("updateWorkTime begin")
         workTime = Int(sender.titleOfSelectedItem!)
-
-        print("updateWorkTime \(workTime) end")
+//        print("updateWorkTime \(workTime) end")
     }
     
     @IBAction func updateBreakTime(sender: NSPopUpButton) {
-        print("updateBreakTime begin")
-        
-//        PomodoroTimer.sharedInstance.restTime = sender.titleOfSelectedItem
+//        print("updateBreakTime begin")
         restTime = Int(sender.titleOfSelectedItem!)
-            
-        print("updateBreakTime \(restTime) end")
+//        print("updateBreakTime \(restTime) end")
     }
     
     func windowWillClose(notification: NSNotification) {
