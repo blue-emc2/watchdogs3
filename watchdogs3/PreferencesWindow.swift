@@ -32,14 +32,14 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
         NSApp.activateIgnoringOtherApps(true)
         
         userData = NSUserDefaults.standardUserDefaults()
-        workTime = userData.integerForKey("workTime") ?? 25
+        workTime = userData.integerForKey(PomodoroTimer.KEY_WORK_TIME) ?? 25
         if (workTime == 0) {
             workTime = 25
         }
         
         workTimeButton.selectItemWithTitle("\(workTime)")
         
-        restTime = userData.integerForKey("restTime") ?? 5
+        restTime = userData.integerForKey(PomodoroTimer.KEY_REST_TIME) ?? 5
         if (restTime == 0) {
             restTime = 5
         }
@@ -76,8 +76,8 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
             userData = NSUserDefaults.standardUserDefaults()
         }
         
-        userData.setInteger(workTime!, forKey: "workTime")
-        userData.setInteger(restTime!, forKey: "breakTime")
+        userData.setInteger(workTime!, forKey: PomodoroTimer.KEY_WORK_TIME)
+        userData.setInteger(restTime!, forKey: PomodoroTimer.KEY_REST_TIME)
         userData.synchronize()
 
         delegate?.preferencesDidUpdate()
