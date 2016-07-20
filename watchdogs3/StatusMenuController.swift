@@ -40,17 +40,16 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
 
     func countDown(notification: NSNotification) {
         if let userInfo = notification.userInfo {
-            var time = userInfo["time"] as! Double
+            let time = userInfo["time"] as! Double
             
-            if (time <= 0.0) {
+            if (time <= 0.9) {
                 statusItem.title = String(format: format, 0, 0)
                 notificationForTimeUp(PomodoroTimer.sharedInstance.status)
                 startTimer("")
                 return
             }
-            time += 0.1 // 59秒対策
-            // 0.9秒で呼ばれる時があるので、23.000の時に0.01で調整する
-            statusItem.title = String(format: format, Int(time / 60.0), Int(time % 60.0 - 0.01))
+
+            statusItem.title = String(format: format, Int(time / 60.0), Int(time % 60.0))
         }
     }
     
@@ -59,16 +58,14 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
             let work = userInfo["work"] as! Int
             statusItem.title = String(format: format, work ?? 25, 0)
         }
+        
+//        statusItem.attributedTitle
     }
     
     override func awakeFromNib() {
-        workTime = userData.integerForKey("workTime")
-        breakTime = userData.integerForKey("breakTime")
-        print("awakeFromNib \(workTime), \(breakTime)")
-        
-//        print(workTime.dynamicType)
-//        print(userData.dictionaryRepresentation())
-//        print(String(format: format, String(workTime), 0))
+        workTime = userData.integerForKey(PomodoroTimer.KEY_WORK_TIME)
+        breakTime = userData.integerForKey(PomodoroTimer.KEY_REST_TIME)
+//        print("awakeFromNib \(workTime), \(breakTime)")
         
         statusItem.title = String(format: format, workTime, 0)
         statusItem.menu = statusMenu
@@ -86,6 +83,7 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
     
     @IBAction func resetTimer(sender: NSMenuItem) {
         PomodoroTimer.sharedInstance.reset()
+        workTime = userData.integerForKey(PomodoroTimer.KEY_WORK_TIME)
         statusItem.title = String(format: format, workTime, 0)
     }
     
