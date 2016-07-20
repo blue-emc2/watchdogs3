@@ -27,12 +27,6 @@
                         <action selector="startTimer:" target="h48-jD-0Kk" id="L07-pM-a9g"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Pause" id="9Kg-6J-NdJ">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="suspendTimer:" target="h48-jD-0Kk" id="BZf-yH-XT2"/>
-                    </connections>
-                </menuItem>
                 <menuItem title="Reset" id="9Qw-fu-kuq">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
