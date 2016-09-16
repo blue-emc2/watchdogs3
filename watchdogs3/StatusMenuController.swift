@@ -13,15 +13,16 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
     @IBOutlet weak var statusMenu: NSMenu!
     
     let format = "%02d:%02d"
-    let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     
-    private var myDateContext = 0
-    private var workTimeContext = 1
-    private var restTimeContext = 2
+    fileprivate var myDateContext = 0
+    fileprivate var workTimeContext = 1
+    fileprivate var restTimeContext = 2
     
     var preferencesWindow: PreferencesWindow!
+    let tasksPopover: NSPopover! = NSPopover()
     
-    var userData: NSUserDefaults!
+    var userData: UserDefaults!
     var workTime: Int!
     var breakTime: Int!
     
@@ -35,26 +36,26 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
                                                                    selector: #selector(updatePrefTimes(_:)),
                                                                    name: PomodoroTimer.UPDATE_TIME_SETTING,
                                                                     userInfo: nil)
-        userData = NSUserDefaults.standardUserDefaults()
+        userData = UserDefaults.standard
     }
 
-    func countDown(notification: NSNotification) {
-        if let userInfo = notification.userInfo {
+    func countDown(_ notification: Notification) {
+        if let userInfo = (notification as NSNotification).userInfo {
             let time = userInfo["time"] as! Double
             
             if (time <= 0.9) {
                 statusItem.title = String(format: format, 0, 0)
                 notificationForTimeUp(PomodoroTimer.sharedInstance.status)
-                startTimer("")
+                startTimer("" as AnyObject)
                 return
             }
 
-            statusItem.title = String(format: format, Int(time / 60.0), Int(time % 60.0))
+            statusItem.title = String(format: format, Int(time / 60.0), Int(time.truncatingRemainder(dividingBy: 60.0)))
         }
     }
     
-    func updatePrefTimes(notification: NSNotification) {
-        if let userInfo = notification.userInfo {
+    func updatePrefTimes(_ notification: Notification) {
+        if let userInfo = (notification as NSNotification).userInfo {
             let work = userInfo["work"] as! Int
             statusItem.title = String(format: format, work ?? 25, 0)
         }
@@ -63,52 +64,57 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
     }
     
     override func awakeFromNib() {
-        workTime = userData.integerForKey(PomodoroTimer.KEY_WORK_TIME)
-        breakTime = userData.integerForKey(PomodoroTimer.KEY_REST_TIME)
+        workTime = userData.integer(forKey: PomodoroTimer.KEY_WORK_TIME)
+        breakTime = userData.integer(forKey: PomodoroTimer.KEY_REST_TIME)
 //        print("awakeFromNib \(workTime), \(breakTime)")
         
         statusItem.title = String(format: format, workTime, 0)
         statusItem.menu = statusMenu
         
         preferencesWindow = PreferencesWindow()
-    }
         
-    @IBAction func startTimer(sender: AnyObject) {
+        tasksPopover.contentViewController = TasksViewController(nibName: "TasksViewController", bundle: nil)
+    }
+    
+    @IBAction func startTimer(_ sender: AnyObject) {
         PomodoroTimer.sharedInstance.start()
     }
 
-    @IBAction func suspendTimer(sender: NSMenuItem) {
+    @IBAction func suspendTimer(_ sender: NSMenuItem) {
         PomodoroTimer.sharedInstance.suspend()
     }
     
-    @IBAction func resetTimer(sender: NSMenuItem) {
+    @IBAction func resetTimer(_ sender: NSMenuItem) {
         PomodoroTimer.sharedInstance.reset()
-        workTime = userData.integerForKey(PomodoroTimer.KEY_WORK_TIME)
+        workTime = userData.integer(forKey: PomodoroTimer.KEY_WORK_TIME)
         statusItem.title = String(format: format, workTime, 0)
     }
     
-    @IBAction func quit(sender: AnyObject) {
+    @IBAction func quit(_ sender: AnyObject) {
         PomodoroTimer.sharedInstance.reset()
-        NSApplication.sharedApplication().terminate(self)
+        NSApplication.shared().terminate(self)
     }
     
-    @IBAction func showPreference(sender: AnyObject) {
+    @IBAction func showPreference(_ sender: AnyObject) {
         PomodoroTimer.sharedInstance.reset()
         preferencesWindow.showWindow(nil)
     }
     
-    func notificationForTimeUp(status: PomodoroTimer.Status) {
+    @IBAction func showTasks(_ sender: AnyObject) {
+    }
+    
+    func notificationForTimeUp(_ status: PomodoroTimer.Status) {
         print("notificationForTimeUp : \(status)")
         let notification = NSUserNotification()
 
-        notification.deliveryDate = NSDate()
+        notification.deliveryDate = Date()
 
-        if (status == PomodoroTimer.Status.Working) {
+        if (status == PomodoroTimer.Status.working) {
             notification.title = "休憩しましょう"
         } else {
             notification.title = "働きましょう"
         }
 
-        NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
+        NSUserNotificationCenter.default.deliver(notification)
     }
 }

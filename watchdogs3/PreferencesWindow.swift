@@ -19,7 +19,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
     @IBOutlet weak var breakTimeButton: NSPopUpButton!
     @IBOutlet weak var workTimeButton: NSPopUpButton!
     
-    var userData: NSUserDefaults!
+    var userData: UserDefaults!
     var workTime: Int!
     var restTime: Int!
     
@@ -29,22 +29,22 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
         self.window?.center()
         self.window?.makeKeyAndOrderFront(nil)
-        NSApp.activateIgnoringOtherApps(true)
+        NSApp.activate(ignoringOtherApps: true)
         
-        userData = NSUserDefaults.standardUserDefaults()
-        workTime = userData.integerForKey(PomodoroTimer.KEY_WORK_TIME) ?? 25
+        userData = UserDefaults.standard
+        workTime = userData.integer(forKey: PomodoroTimer.KEY_WORK_TIME) ?? 25
         if (workTime == 0) {
             workTime = 25
         }
         
-        workTimeButton.selectItemWithTitle("\(workTime)")
+        workTimeButton.selectItem(withTitle: "\(workTime)")
         
-        restTime = userData.integerForKey(PomodoroTimer.KEY_REST_TIME) ?? 5
+        restTime = userData.integer(forKey: PomodoroTimer.KEY_REST_TIME) ?? 5
         if (restTime == 0) {
             restTime = 5
         }
         
-        breakTimeButton.selectItemWithTitle("\(restTime)")
+        breakTimeButton.selectItem(withTitle: "\(restTime)")
         
         print("\(workTime),    \(restTime),    \(workTimeButton.itemTitles), \(breakTimeButton.itemTitles)")
     }
@@ -53,30 +53,30 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
         return "PreferencesWindow"
     }
     
-    @IBAction func updateWorkTime(sender: NSPopUpButton) {
+    @IBAction func updateWorkTime(_ sender: NSPopUpButton) {
 //        print("updateWorkTime begin")
         workTime = Int(sender.titleOfSelectedItem!)
 //        print("updateWorkTime \(workTime) end")
     }
     
-    @IBAction func updateBreakTime(sender: NSPopUpButton) {
+    @IBAction func updateBreakTime(_ sender: NSPopUpButton) {
 //        print("updateBreakTime begin")
         restTime = Int(sender.titleOfSelectedItem!)
 //        print("updateBreakTime \(restTime) end")
     }
     
-    func windowWillClose(notification: NSNotification) {
+    func windowWillClose(_ notification: Notification) {
         if let _ = userData {
-            userData = NSUserDefaults.standardUserDefaults()
+            userData = UserDefaults.standard
         }
         
-        userData.setInteger(workTime!, forKey: PomodoroTimer.KEY_WORK_TIME)
-        userData.setInteger(restTime!, forKey: PomodoroTimer.KEY_REST_TIME)
+        userData.set(workTime!, forKey: PomodoroTimer.KEY_WORK_TIME)
+        userData.set(restTime!, forKey: PomodoroTimer.KEY_REST_TIME)
         userData.synchronize()
 
         delegate?.preferencesDidUpdate()
         
-        NSNotificationCenter.defaultCenter().postNotificationName(PomodoroTimer.UPDATE_TIME_SETTING,
+        NotificationCenter.default.post(name: Notification.Name(rawValue: PomodoroTimer.UPDATE_TIME_SETTING),
                                                                   object: self,
                                                                   userInfo: ["work" : workTime,
                                                                     "rest" : restTime])

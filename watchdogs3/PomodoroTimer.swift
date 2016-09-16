@@ -13,17 +13,17 @@ import Cocoa
 class PomodoroTimer: NSObject {
 
     enum Status {
-        case Stopped
-        case Working
-        case Resting
+        case stopped
+        case working
+        case resting
     }
 
-    var status = Status.Stopped
-    var endTime : NSDate! = nil             // 終了時間を表す変数
-    var userData: NSUserDefaults!
+    var status = Status.stopped
+    var endTime : Date! = nil             // 終了時間を表す変数
+    var userData: UserDefaults!
     var observerObject: NSObject!
     
-    weak var timer: NSTimer?
+    weak var timer: Timer?
 
     static let COUNT_DOWN = "COUNT_DOWN"
     static let UPDATE_TIME_SETTING = "UPDATE_TIME_SETTING"
@@ -39,66 +39,66 @@ class PomodoroTimer: NSObject {
     }
     
     override init() {
-        userData = NSUserDefaults.standardUserDefaults()
-        status = Status.Stopped
+        userData = UserDefaults.standard
+        status = Status.stopped
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(observerObject)
+        NotificationCenter.default.removeObserver(observerObject)
     }
 
-    func start() -> NSTimer {
+    func start() -> Timer {
         switch status {
-        case Status.Working:
+        case Status.working:
             rest()
-        case Status.Resting, Status.Stopped:
+        case Status.resting, Status.stopped:
             work()
         }
 
         print("start status: \(status)")
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ticktock), userInfo: nil, repeats: true)
-        NSRunLoop.currentRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ticktock), userInfo: nil, repeats: true)
+        RunLoop.current.add(timer!, forMode: RunLoopMode.commonModes)
 
         return timer!
     }
     
     func ticktock() {
-        let now = NSDate()
-        if (now.isEqualToDate(endTime)) {
+        let now = Date()
+        if (now == endTime) {
             timer?.invalidate()
             return
         }
 
         // 0.9秒で呼ばれる時があるので、23.000の時に0.1で調整する
-        let time_left: Double = endTime.timeIntervalSinceDate(now) - 0.1
+        let time_left: Double = endTime.timeIntervalSince(now) - 0.1
         print("ticktock \(time_left)" )
-        NSNotificationCenter.defaultCenter().postNotificationName(PomodoroTimer.COUNT_DOWN, object: observerObject, userInfo: ["time" : time_left])
+        NotificationCenter.default.post(name: Notification.Name(rawValue: PomodoroTimer.COUNT_DOWN), object: observerObject, userInfo: ["time" : time_left])
     }
 
     func work() {
-        if (status == .Working) {
+        if (status == .working) {
             return
         }
 
         suspend()
         currentSettingTime(PomodoroTimer.KEY_WORK_TIME)
-        status = Status.Working
+        status = Status.working
     }
 
     func rest() {
-        if (status == .Resting) {
+        if (status == .resting) {
             return
         }
 
         suspend()
         currentSettingTime(PomodoroTimer.KEY_REST_TIME)
-        status = Status.Resting
+        status = Status.resting
     }
     
     func reset() {
         suspend()
-        status = Status.Stopped
+        status = Status.stopped
 //        print("status: \(status)")
     }
     
@@ -106,20 +106,20 @@ class PomodoroTimer: NSObject {
         timer?.invalidate()
     }
 
-    func currentSettingTime(key: String) {
+    func currentSettingTime(_ key: String) {
         if let _ = userData {
-            userData = NSUserDefaults.standardUserDefaults()
+            userData = UserDefaults.standard
         }
 
-        let start = userData.integerForKey(key)
+        let start = userData.integer(forKey: key)
         let interval = Double(start) * 61.0
 //        let interval = 5.0    デバック
-        endTime = NSDate(timeInterval: interval, sinceDate: NSDate())
+        endTime = Date(timeInterval: interval, since: Date())
         print("currentSettingTime \(endTime), \(start), \(interval), \(userData)")
     }
 
     func addNotificationCenterObserver(observer target: NSObject, selector aSelector: Selector, name: String, userInfo anObject: AnyObject?) {
         observerObject = target
-        NSNotificationCenter.defaultCenter().addObserver(observerObject, selector: aSelector, name: name, object: anObject)
+        NotificationCenter.default.addObserver(observerObject, selector: aSelector, name: NSNotification.Name(rawValue: name), object: anObject)
     }
 }

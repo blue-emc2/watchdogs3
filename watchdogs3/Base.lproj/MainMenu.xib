@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
@@ -34,6 +34,12 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="ylU-eh-Zmy"/>
+                <menuItem title="Tasks..." id="NTn-Lt-KpG">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showTasks:" target="h48-jD-0Kk" id="HI2-Bh-ZrZ"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Preferences…" id="vZ4-i7-C6u">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
