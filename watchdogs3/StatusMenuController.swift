@@ -20,7 +20,7 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
     fileprivate var restTimeContext = 2
     
     var preferencesWindow: PreferencesWindow!
-    let tasksPopover: NSPopover! = NSPopover()
+    var tasksWindow: TasksViewController!
     
     var userData: UserDefaults!
     var workTime: Int!
@@ -71,13 +71,13 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
         statusItem.title = String(format: format, workTime, 0)
         statusItem.menu = statusMenu
         
+        // ここ以外に書くならloadWindowが必要
         preferencesWindow = PreferencesWindow()
-        
-        tasksPopover.contentViewController = TasksViewController(nibName: "TasksViewController", bundle: nil)
+        tasksWindow = TasksViewController()
     }
     
     @IBAction func startTimer(_ sender: AnyObject) {
-        PomodoroTimer.sharedInstance.start()
+        _ = PomodoroTimer.sharedInstance.start()
     }
 
     @IBAction func suspendTimer(_ sender: NSMenuItem) {
@@ -101,6 +101,7 @@ class StatusMenuController: NSObject, NSUserNotificationCenterDelegate {
     }
     
     @IBAction func showTasks(_ sender: AnyObject) {
+        tasksWindow.showWindow(nil)
     }
     
     func notificationForTimeUp(_ status: PomodoroTimer.Status) {

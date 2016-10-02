@@ -14,9 +14,9 @@
 		1204572B1D3667D4006ECC3A /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120457271D3667D4006ECC3A /* PreferencesWindow.swift */; };
 		1204572C1D3667D4006ECC3A /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 120457281D3667D4006ECC3A /* PreferencesWindow.xib */; };
 		1204572D1D3667D4006ECC3A /* PomodoroTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120457291D3667D4006ECC3A /* PomodoroTimer.swift */; };
+		12D144831D8E5E960064DE13 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D144811D8E5E960064DE13 /* TasksViewController.swift */; };
+		12D144841D8E5E960064DE13 /* TasksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12D144821D8E5E960064DE13 /* TasksViewController.xib */; };
 		12D8DBE71D8824AB00E07A7E /* TaskAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D8DBE61D8824AB00E07A7E /* TaskAPI.swift */; };
-		12D8DBEC1D89889B00E07A7E /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D8DBEA1D89889B00E07A7E /* TasksViewController.swift */; };
-		12D8DBED1D89889B00E07A7E /* TasksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12D8DBEB1D89889B00E07A7E /* TasksViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,9 +29,9 @@
 		120457271D3667D4006ECC3A /* PreferencesWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		120457281D3667D4006ECC3A /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
 		120457291D3667D4006ECC3A /* PomodoroTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PomodoroTimer.swift; sourceTree = "<group>"; };
+		12D144811D8E5E960064DE13 /* TasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TasksViewController.swift; path = ../TasksViewController.swift; sourceTree = "<group>"; };
+		12D144821D8E5E960064DE13 /* TasksViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TasksViewController.xib; path = ../TasksViewController.xib; sourceTree = "<group>"; };
 		12D8DBE61D8824AB00E07A7E /* TaskAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskAPI.swift; sourceTree = "<group>"; };
-		12D8DBEA1D89889B00E07A7E /* TasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
-		12D8DBEB1D89889B00E07A7E /* TasksViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TasksViewController.xib; sourceTree = "<group>"; };
 		368B64E2BF29E20969F9BB9C /* Pods_watchdogs3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_watchdogs3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6C7BDDB6E6F2984DE9047E /* Pods-watchdogs3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-watchdogs3.debug.xcconfig"; path = "Pods/Target Support Files/Pods-watchdogs3/Pods-watchdogs3.debug.xcconfig"; sourceTree = "<group>"; };
 		B0F88837298C0FC6CBB00B79 /* Pods-watchdogs3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-watchdogs3.release.xcconfig"; path = "Pods/Target Support Files/Pods-watchdogs3/Pods-watchdogs3.release.xcconfig"; sourceTree = "<group>"; };
@@ -69,17 +69,17 @@
 		120457181D366645006ECC3A /* watchdogs3 */ = {
 			isa = PBXGroup;
 			children = (
+				12D144821D8E5E960064DE13 /* TasksViewController.xib */,
+				12D144811D8E5E960064DE13 /* TasksViewController.swift */,
 				120457261D3667D4006ECC3A /* StatusMenuController.swift */,
 				120457271D3667D4006ECC3A /* PreferencesWindow.swift */,
 				120457281D3667D4006ECC3A /* PreferencesWindow.xib */,
+				1204571B1D366645006ECC3A /* Assets.xcassets */,
 				120457291D3667D4006ECC3A /* PomodoroTimer.swift */,
 				120457191D366645006ECC3A /* AppDelegate.swift */,
-				1204571B1D366645006ECC3A /* Assets.xcassets */,
 				1204571D1D366645006ECC3A /* MainMenu.xib */,
 				120457201D366645006ECC3A /* Info.plist */,
 				12D8DBE61D8824AB00E07A7E /* TaskAPI.swift */,
-				12D8DBEA1D89889B00E07A7E /* TasksViewController.swift */,
-				12D8DBEB1D89889B00E07A7E /* TasksViewController.xib */,
 			);
 			path = watchdogs3;
 			sourceTree = "<group>";
@@ -131,7 +131,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				TargetAttributes = {
 					120457151D366645006ECC3A = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -163,7 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1204571C1D366645006ECC3A /* Assets.xcassets in Resources */,
-				12D8DBED1D89889B00E07A7E /* TasksViewController.xib in Resources */,
+				12D144841D8E5E960064DE13 /* TasksViewController.xib in Resources */,
 				1204572C1D3667D4006ECC3A /* PreferencesWindow.xib in Resources */,
 				1204571F1D366645006ECC3A /* MainMenu.xib in Resources */,
 			);
@@ -229,7 +229,7 @@
 				1204572D1D3667D4006ECC3A /* PomodoroTimer.swift in Sources */,
 				1204571A1D366645006ECC3A /* AppDelegate.swift in Sources */,
 				12D8DBE71D8824AB00E07A7E /* TaskAPI.swift in Sources */,
-				12D8DBEC1D89889B00E07A7E /* TasksViewController.swift in Sources */,
+				12D144831D8E5E960064DE13 /* TasksViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,8 +261,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -289,6 +291,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -306,8 +309,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -326,6 +331,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};

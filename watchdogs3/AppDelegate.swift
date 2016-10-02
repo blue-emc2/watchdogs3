@@ -14,11 +14,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         print("applicationDidFinishLaunching")
         NSUserNotificationCenter.default.delegate = self
-
-        print("start")
-        let api = TaskAPI()
-        api.fetchTaskList("hoge")
-        print("end")
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
